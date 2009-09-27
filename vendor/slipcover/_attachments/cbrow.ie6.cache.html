@@ -5225,7 +5225,8 @@ $pyjs.loaded_modules['cbrow'] = function (__mod_name__) {
 	cbrow['JSONParser'] = $pyjs.__modules__['pyjamas']['JSONParser']['JSONParser'];
 	if (pyjslib['bool'](pyjslib['eq'](cbrow['__name__'], String('__main__')))) {
 		cbrow['pyjd']['setup'](String('public/cbrow.html?fred=foo#me'));
-		cbrow['db_url'] = String('http://localhost:5984/relaxer/');
+		cbrow['full_url'] = cbrow['Window']['getLocation']()['getHref']();
+		cbrow['db_url'] =  ( String('/')['join'](pyjslib['slice'](cbrow['full_url']['split'](String('/')), 0, 4)) + String('/') ) ;
 		cbrow['editor_panel'] = cbrow['VerticalPanel']();
 		cbrow['editor'] = cbrow['Editor'](cbrow['db_url'], cbrow['editor_panel']);
 		cbrow['viewer'] = cbrow['Viewer'](cbrow['db_url'], cbrow['RootPanel'](), (typeof cbrow['editor']['loadDocument'] == 'function' && cbrow['editor'].__is_instance__?

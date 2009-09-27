@@ -14,7 +14,8 @@ from pyjamas.JSONParser import JSONParser
 if __name__ == '__main__':
     pyjd.setup("public/cbrow.html?fred=foo#me")
 
-    db_url = 'http://localhost:5984/relaxer/'
+    full_url = Window.getLocation().getHref()
+    db_url = '/'.join(full_url.split('/')[:4])+'/'
     editor_panel = VerticalPanel()
     editor = Editor(db_url, editor_panel)
     viewer = Viewer(db_url, RootPanel(), editor.loadDocument)
