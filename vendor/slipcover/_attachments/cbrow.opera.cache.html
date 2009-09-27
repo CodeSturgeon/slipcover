@@ -2025,7 +2025,54 @@ $pyjs.loaded_modules['pyjamas.HTTPRequest'] = function (__mod_name__) {
 		var $cls_instance = $pyjs__class_instance('HTTPRequest');
 		var $cls_definition = new Object();
 		var $method;
-		$cls_definition.__md5__ = '62f75d1bc60957ad3634bc67d1ee93f5';
+		$cls_definition.__md5__ = '19dc3dfaecb90e61b7c39ffcabe05a4d';
+		$method = $pyjs__bind_method($cls_instance, 'asyncPut', function(user, pwd, url, postData, handler, returnxml, content_type) {
+			if (this.__is_instance__ === true) {
+				var self = this;
+			} else {
+				var self = arguments[0];
+				user = arguments[1];
+				pwd = arguments[2];
+				url = arguments[3];
+				postData = arguments[4];
+				handler = arguments[5];
+				returnxml = arguments[6];
+				content_type = arguments[7];
+			}
+			if (typeof postData == 'undefined') postData=arguments.callee.__args__[6][1];
+			if (typeof handler == 'undefined') handler=arguments.callee.__args__[7][1];
+			if (typeof returnxml == 'undefined') returnxml=arguments.callee.__args__[8][1];
+			if (typeof content_type == 'undefined') content_type=arguments.callee.__args__[9][1];
+
+			if (pyjslib['bool']((postData === null))) {
+				return self['asyncPutImpl'](null, null, user, pwd, url, returnxml, content_type);
+			}
+			return self['asyncPutImpl'](user, pwd, url, postData, handler, returnxml, content_type);
+		}
+	, 1, [null,null,['self'],['user'],['pwd'],['url'],['postData', null],['handler', null],['returnxml', 0],['content_type', String('text/plain charset=utf8')]]);
+		$cls_definition['asyncPut'] = $method;
+		$method = $pyjs__bind_method($cls_instance, 'asyncDelete', function(user, pwd, url, handler, returnxml) {
+			if (this.__is_instance__ === true) {
+				var self = this;
+			} else {
+				var self = arguments[0];
+				user = arguments[1];
+				pwd = arguments[2];
+				url = arguments[3];
+				handler = arguments[4];
+				returnxml = arguments[5];
+			}
+			if (typeof url == 'undefined') url=arguments.callee.__args__[5][1];
+			if (typeof handler == 'undefined') handler=arguments.callee.__args__[6][1];
+			if (typeof returnxml == 'undefined') returnxml=arguments.callee.__args__[7][1];
+
+			if (pyjslib['bool']((url === null))) {
+				return self['asyncDeleteImpl'](null, null, user, pwd, returnxml);
+			}
+			return self['asyncDeleteImpl'](user, pwd, url, handler, returnxml);
+		}
+	, 1, [null,null,['self'],['user'],['pwd'],['url', null],['handler', null],['returnxml', 0]]);
+		$cls_definition['asyncDelete'] = $method;
 		$method = $pyjs__bind_method($cls_instance, 'asyncPost', function(user, pwd, url, postData, handler, returnxml, content_type) {
 			if (this.__is_instance__ === true) {
 				var self = this;
@@ -2147,9 +2194,9 @@ $pyjs.loaded_modules['pyjamas.HTTPRequest'] = function (__mod_name__) {
 				xmlHttp = pyjamas.HTTPRequest.get_main_frame()['gobject_wrap'](xmlHttp);
 			} catch($pyjs_try_err) {
 				var $pyjs_try_err_name = (typeof $pyjs_try_err.__name__ == 'undefined' ? $pyjs_try_err.name : $pyjs_try_err.__name__ );
-				$pyjs.__last_exception__ = {error: $pyjs_try_err, module: pyjamas.HTTPRequest, try_lineno: 66};
+				$pyjs.__last_exception__ = {error: $pyjs_try_err, module: pyjamas.HTTPRequest, try_lineno: 81};
 				if (true) {
-					$pyjs.__last_exception__.except_lineno = 69;
+					$pyjs.__last_exception__.except_lineno = 84;
 					err = $pyjs_try_err;
 				}
 			}
@@ -2216,6 +2263,116 @@ $pyjs.loaded_modules['pyjamas.HTTPRequest'] = function (__mod_name__) {
 		}
 	, 1, [null,null,['self'],['url']]);
 		$cls_definition['_convertUrlToAbsolute'] = $method;
+		$method = $pyjs__bind_method($cls_instance, 'asyncPutImpl', function(user, pwd, url, postData, handler, returnxml, content_type) {
+			if (this.__is_instance__ === true) {
+				var self = this;
+			} else {
+				var self = arguments[0];
+				user = arguments[1];
+				pwd = arguments[2];
+				url = arguments[3];
+				postData = arguments[4];
+				handler = arguments[5];
+				returnxml = arguments[6];
+				content_type = arguments[7];
+			}
+			var pdlen;
+			pdlen = pyjslib['str'](pyjslib['len'](postData));
+
+        var xmlHttp = this.doCreateXmlHTTPRequest();
+        try {
+            xmlHttp.open("PUT", url, true);
+            xmlHttp.setRequestHeader("Content-Type", content_type);
+            xmlHttp.setRequestHeader("Content-Length", pdlen);
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4) {
+                    delete xmlHttp.onreadystatechange;
+                    var localHandler = handler;
+                    var response;
+                    var status = xmlHttp.status;
+                    if (returnxml)
+                        response = xmlHttp.responseXML;
+                    else
+                        response = xmlHttp.responseText;
+                    handler = null;
+                    xmlHttp = null;
+                    if(status == 200) {
+                        localHandler.onCompletion(response);
+                    } else {
+                        localHandler.onError(response, status);
+                    }
+                }
+            };
+            xmlHttp.send(postData);
+            return true;
+        }
+        catch (e) {
+            delete xmlHttp.onreadystatechange;
+            var localHandler = handler;
+            handler = null;
+            xmlHttp = null;
+            localHandler.onError(String(e), "");
+            return false;
+        }
+        
+		}
+	, 1, [null,null,['self'],['user'],['pwd'],['url'],['postData'],['handler'],['returnxml'],['content_type']]);
+		$cls_definition['asyncPutImpl'] = $method;
+		$method = $pyjs__bind_method($cls_instance, 'asyncDeleteImpl', function(user, pwd, url, handler, returnxml) {
+			if (this.__is_instance__ === true) {
+				var self = this;
+			} else {
+				var self = arguments[0];
+				user = arguments[1];
+				pwd = arguments[2];
+				url = arguments[3];
+				handler = arguments[4];
+				returnxml = arguments[5];
+			}
+			if (typeof returnxml == 'undefined') returnxml=arguments.callee.__args__[7][1];
+
+
+        var xmlHttp = this.doCreateXmlHTTPRequest();
+        try {
+            xmlHttp.open("DELETE", url, true);
+            if (returnxml)
+                xmlHttp.setRequestHeader("Content-Type", "application/xml; charset=utf-8");
+            else
+                xmlHttp.setRequestHeader("Content-Type", "text/plain; charset=utf-8");
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4) {
+                    delete xmlHttp.onreadystatechange;
+                    var localHandler = handler;
+                    var response;
+                    var status = xmlHttp.status;
+                    if (returnxml)
+                        response = xmlHttp.responseXML;
+                    else
+                        response = xmlHttp.responseText;
+                    handler = null;
+                    xmlHttp = null;
+                    if(status == 200) {
+                        localHandler.onCompletion(response);
+                    } else {
+                        localHandler.onError(response, status);
+                    }
+                }
+            };
+            xmlHttp.send('');
+            return true;
+        }
+        catch (e) {
+            delete xmlHttp.onreadystatechange;
+            var localHandler = handler;
+            handler = null;
+            xmlHttp = null;
+            localHandler.onError(String(e), "");
+            return false;
+        }
+        
+		}
+	, 1, [null,null,['self'],['user'],['pwd'],['url'],['handler'],['returnxml', 0]]);
+		$cls_definition['asyncDeleteImpl'] = $method;
 		$method = $pyjs__bind_method($cls_instance, 'asyncPostImpl', function(user, pwd, url, postData, handler, returnxml, content_type) {
 			if (this.__is_instance__ === true) {
 				var self = this;
