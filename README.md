@@ -7,9 +7,9 @@ Slipcover is an exploration in the use of [Pyjamas][] with [CouchDB][]. Currentl
 SlipCover is in a _very_ alpha state right now. In fact, you can't even currently compile it with [Pyjamas][] without patching.
   
 ## Installing the easy way (vendor)
-Install [Couchapp][] and set up a project. Once you are setup, install slipcover as a vendor:
+Install [Couchapp][] and set up a project. Once you are setup, install slipcover as a vendor:  
   couchapp vendor install git://github.com/CodeSturgeon/slipcover.git
-That will pull the pre-compiled [Pyjamas][] app from github and install it in to your [Couchapp][] project. Once you have pushed your project, go to:
+That will pull the pre-compiled [Pyjamas][] app from github and install it in to your [Couchapp][] project. Once you have pushed your project, go to:  
   http://localhost:5984/my_db/_design/my_design_doc/vendor/slipcover/cbrows.html
   
 [Pyjamas]: http://pyjs.org/  
