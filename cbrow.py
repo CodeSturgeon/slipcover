@@ -12,7 +12,7 @@ from pyjamas.HTTPRequest import HTTPRequest
 from pyjamas.JSONParser import JSONParser
 
 if __name__ == '__main__':
-    pyjd.setup("public/cbrow.html?fred=foo#me")
+    pyjd.setup("public/cbrow.html")
 
     full_url = Window.getLocation().getHref()
     db_url = '/'.join(full_url.split('/')[:4])+'/'

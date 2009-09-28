@@ -95,9 +95,10 @@ class Editor:
         self.parent_panel.add(self.button_panel)
 
 if __name__ == '__main__':
-    pyjd.setup("public/editor.html?fred=foo#me")
+    pyjd.setup("public/editor.html")
 
-    db_url = 'http://localhost:5984/relaxer/'
+    full_url = Window.getLocation().getHref()
+    db_url = '/'.join(full_url.split('/')[:4])+'/'
     doc_id = '002aee2de7875f1145f6cf8b5e2e1290'
     vsp = VerticalPanel()
     RootPanel().add(vsp)

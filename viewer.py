@@ -73,9 +73,10 @@ class Viewer:
                                 handler=ViewLoader(self))
 
 if __name__ == '__main__':
-    pyjd.setup("public/viewer.html?fred=foo#me")
+    pyjd.setup("public/viewer.html")
 
-    db_url = 'http://localhost:5984/relaxer/'
+    full_url = Window.getLocation().getHref()
+    db_url = '/'.join(full_url.split('/')[:4])+'/'
     view_url = '_all_docs'
     viewer = Viewer(db_url, RootPanel(), Window.alert)
     viewer.onModuleLoad()
