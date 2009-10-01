@@ -24,6 +24,6 @@ if __name__ == '__main__':
     viewer.onModuleLoad()
     RootPanel().add(sep)
     RootPanel().add(editor_panel)
-    viewer.loadView('_all_docs')
+    viewer.setView('_all_docs')
 
     pyjd.run()
