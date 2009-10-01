@@ -89,9 +89,7 @@ class Editor:
         self.button_panel = HorizontalPanel()
         self.save_button = Button("Save", self.saveDocument)
         self.save_button.setEnabled(False)
-        self.view_button = Button("View", self.testy)
         self.button_panel.add(self.save_button)
-        self.button_panel.add(self.view_button)
         self.parent_panel.add(self.button_panel)
 
 if __name__ == '__main__':
