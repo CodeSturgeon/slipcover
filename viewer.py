@@ -42,11 +42,12 @@ class Viewer:
     def onModuleLoad(self):
         self.grid = Grid()
         # Note: The resize method args are Rows,Cols (Curses style)
-        self.grid.resize(1,3)
+        self.grid.resize(1,4)
         self.grid.setBorderWidth(1)
-        self.grid.setHTML(0,0,'ID')
-        self.grid.setHTML(0,1,'Revision')
-        self.grid.setHTML(0,2,'Delete')
+        self.grid.setHTML(0,0,'#')
+        self.grid.setHTML(0,1,'ID')
+        self.grid.setHTML(0,2,'Revision')
+        self.grid.setHTML(0,3,'Delete')
         self.grid.addTableListener(self)
         self.parent_panel.add(self.grid)
 
@@ -63,25 +64,26 @@ class Viewer:
 
     def populate(self, json):
         view_obj = JSONParser().decode(json)
-        data = view_obj['rows']
-        num_rows = len(data)
+        view_rows = view_obj['rows']
+        offset = view_obj['offset']
+        num_rows = len(view_rows)
         
-        self.first_key = data[0]['key']
+        self.first_key = view_rows[0]['key']
 
         if num_rows > self.page_size:
-            print 'nk: %s'%self.next_key
-            self.next_key = data[-1:][0]['key']
-            print 'nk: %s'%self.next_key
+            self.next_key = view_rows[-1:][0]['key']
             self.next_button.setEnabled(True)
-            self.grid.resize(self.page_size+1,3)
+            self.grid.resize(self.page_size+1,4)
         else:
             self.grid.resize(num_rows+1,3)
 
         for row_num in range(num_rows):
             if row_num < self.page_size:
-                self.grid.setHTML(row_num+1, 0, data[row_num]['key'])
-                self.grid.setHTML(row_num+1, 1, data[row_num]['value']['rev'])
-                self.grid.setHTML(row_num+1, 2, '<b>X O X</b>')
+                self.grid.setHTML(row_num+1, 0, 1+offset+row_num)
+                self.grid.setHTML(row_num+1, 1, view_rows[row_num]['key'])
+                self.grid.setHTML(row_num+1, 2,
+                                    view_rows[row_num]['value']['rev'])
+                self.grid.setHTML(row_num+1, 3, '<b>X O X</b>')
         
         if len(self.prev_keys)>0:
             self.prev_button.setEnabled(True)

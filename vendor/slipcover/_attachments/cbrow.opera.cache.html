@@ -2757,7 +2757,7 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 		var $cls_instance = $pyjs__class_instance('Viewer');
 		var $cls_definition = new Object();
 		var $method;
-		$cls_definition.__md5__ = 'c3276be369a2849f9d49495f252c34c0';
+		$cls_definition.__md5__ = '0d43b2aebfbfa4a005622d8b1438c7c3';
 		$method = $pyjs__bind_method($cls_instance, '__init__', function(db_url, parent_panel, doc_callback, page_size) {
 			if (this.__is_instance__ === true) {
 				var self = this;
@@ -2787,11 +2787,12 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 			}
 
 			self.grid = viewer['Grid']();
-			self['grid']['resize'](1, 3);
+			self['grid']['resize'](1, 4);
 			self['grid']['setBorderWidth'](1);
-			self['grid']['setHTML'](0, 0, String('ID'));
-			self['grid']['setHTML'](0, 1, String('Revision'));
-			self['grid']['setHTML'](0, 2, String('Delete'));
+			self['grid']['setHTML'](0, 0, String('#'));
+			self['grid']['setHTML'](0, 1, String('ID'));
+			self['grid']['setHTML'](0, 2, String('Revision'));
+			self['grid']['setHTML'](0, 3, String('Delete'));
 			self['grid']['addTableListener'](self);
 			self['parent_panel']['add']((typeof self['grid'] == 'function' && self.__is_instance__?
 						pyjslib['getattr'](self, 'grid'):
@@ -2825,25 +2826,20 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 				var self = arguments[0];
 				json = arguments[1];
 			}
-			var row_num,view_obj,$iter000001,num_rows,data;
+			var row_num,view_obj,$iter000001,offset,num_rows,view_rows;
 			view_obj = viewer['JSONParser']()['decode'](json);
-			data = view_obj.__getitem__(String('rows'));
-			num_rows = pyjslib['len'](data);
-			self.first_key = data.__getitem__(0).__getitem__(String('key'));
+			view_rows = view_obj.__getitem__(String('rows'));
+			offset = view_obj.__getitem__(String('offset'));
+			num_rows = pyjslib['len'](view_rows);
+			self.first_key = view_rows.__getitem__(0).__getitem__(String('key'));
 			if (pyjslib['bool']((pyjslib['cmp'](num_rows, (typeof self['page_size'] == 'function' && self.__is_instance__?
 						pyjslib['getattr'](self, 'page_size'):
 						self['page_size'])) == 1))) {
-				pyjslib['printFunc']([pyjslib['sprintf'](String('nk: %s'), (typeof self['next_key'] == 'function' && self.__is_instance__?
-							pyjslib['getattr'](self, 'next_key'):
-							self['next_key']))], 1);
-				self.next_key = pyjslib['slice'](data, -1, null).__getitem__(0).__getitem__(String('key'));
-				pyjslib['printFunc']([pyjslib['sprintf'](String('nk: %s'), (typeof self['next_key'] == 'function' && self.__is_instance__?
-							pyjslib['getattr'](self, 'next_key'):
-							self['next_key']))], 1);
+				self.next_key = pyjslib['slice'](view_rows, -1, null).__getitem__(0).__getitem__(String('key'));
 				self['next_button']['setEnabled'](true);
 				self['grid']['resize']( ( (typeof self['page_size'] == 'function' && self.__is_instance__?
 							pyjslib['getattr'](self, 'page_size'):
-							self['page_size']) + 1 ) , 3);
+							self['page_size']) + 1 ) , 4);
 			}
 			else {
 				self['grid']['resize']( ( num_rows + 1 ) , 3);
@@ -2856,9 +2852,10 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 					if (pyjslib['bool']((pyjslib['cmp'](row_num, (typeof self['page_size'] == 'function' && self.__is_instance__?
 								pyjslib['getattr'](self, 'page_size'):
 								self['page_size'])) == -1))) {
-						self['grid']['setHTML']( ( row_num + 1 ) , 0, data.__getitem__(row_num).__getitem__(String('key')));
-						self['grid']['setHTML']( ( row_num + 1 ) , 1, data.__getitem__(row_num).__getitem__(String('value')).__getitem__(String('rev')));
-						self['grid']['setHTML']( ( row_num + 1 ) , 2, String('\x3Cb\x3EX O X\x3C/b\x3E'));
+						self['grid']['setHTML']( ( row_num + 1 ) , 0,  (  ( 1 + offset )  + row_num ) );
+						self['grid']['setHTML']( ( row_num + 1 ) , 1, view_rows.__getitem__(row_num).__getitem__(String('key')));
+						self['grid']['setHTML']( ( row_num + 1 ) , 2, view_rows.__getitem__(row_num).__getitem__(String('value')).__getitem__(String('rev')));
+						self['grid']['setHTML']( ( row_num + 1 ) , 3, String('\x3Cb\x3EX O X\x3C/b\x3E'));
 					}
 				}
 			} catch (e) {
