@@ -75,7 +75,7 @@ class Viewer:
             self.next_button.setEnabled(True)
             self.grid.resize(self.page_size+1,4)
         else:
-            self.grid.resize(num_rows+1,3)
+            self.grid.resize(num_rows+1,4)
 
         for row_num in range(num_rows):
             if row_num < self.page_size:
