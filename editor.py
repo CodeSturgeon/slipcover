@@ -17,7 +17,7 @@ class DocLoader:
         self.editor.updateDoc(text)
 
     def onError(self, text):
-        Window.alert(text)
+        Window.alert('Error loading document: %s'%text)
 
 class DocSaver:
     def __init__(self, editor):

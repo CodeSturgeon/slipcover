@@ -2697,7 +2697,7 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 		var $cls_instance = $pyjs__class_instance('ViewLoader');
 		var $cls_definition = new Object();
 		var $method;
-		$cls_definition.__md5__ = '8ab9e9c0a2e82f59c6468a55e441420a';
+		$cls_definition.__md5__ = '5256ec46378ca0701a93e7bc8b54b83b';
 		$method = $pyjs__bind_method($cls_instance, '__init__', function(viewer) {
 			if (this.__is_instance__ === true) {
 				var self = this;
@@ -2706,7 +2706,6 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 				viewer = arguments[1];
 			}
 
-			pyjslib['printFunc']([String('loader init')], 1);
 			self.viewer = viewer;
 			return null;
 		}
@@ -2720,7 +2719,6 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 				body = arguments[1];
 			}
 
-			pyjslib['printFunc']([String('complete')], 1);
 			self['viewer']['populate'](body);
 			return null;
 		}
@@ -2734,7 +2732,7 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 				text = arguments[1];
 			}
 
-			viewer['Window']['alert'](text);
+			viewer['Window']['alert'](pyjslib['sprintf'](String('Error loading view: %s'), text));
 			return null;
 		}
 	, 1, [null,null,['self'],['text']]);
@@ -2746,7 +2744,7 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 		var $cls_instance = $pyjs__class_instance('DeleteHandler');
 		var $cls_definition = new Object();
 		var $method;
-		$cls_definition.__md5__ = 'a05418c1d87cc2fbe5b72802ebef2aa7';
+		$cls_definition.__md5__ = 'a33a0e783cb5a4940ed249543844884a';
 		$method = $pyjs__bind_method($cls_instance, '__init__', function(viewer) {
 			if (this.__is_instance__ === true) {
 				var self = this;
@@ -2796,7 +2794,7 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 		var $cls_instance = $pyjs__class_instance('Viewer');
 		var $cls_definition = new Object();
 		var $method;
-		$cls_definition.__md5__ = '3832e531fc3a85c2c0126657b4ad257a';
+		$cls_definition.__md5__ = '85bc40fa77a09de2db5e52ef91725289';
 		$method = $pyjs__bind_method($cls_instance, '__init__', function(db_url, parent_panel, doc_callback, page_size) {
 			if (this.__is_instance__ === true) {
 				var self = this;
@@ -2837,6 +2835,13 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 						pyjslib['getattr'](self, 'grid'):
 						self['grid']));
 			self.button_panel = viewer['HorizontalPanel']();
+			self.first_button = viewer['Button'](String('\x3C-'), (typeof self['firstPage'] == 'function' && self.__is_instance__?
+						pyjslib['getattr'](self, 'firstPage'):
+						self['firstPage']));
+			self['first_button']['setEnabled'](false);
+			self['button_panel']['add']((typeof self['first_button'] == 'function' && self.__is_instance__?
+						pyjslib['getattr'](self, 'first_button'):
+						self['first_button']));
 			self.prev_button = viewer['Button'](String('Previous'), (typeof self['prevPage'] == 'function' && self.__is_instance__?
 						pyjslib['getattr'](self, 'prevPage'):
 						self['prevPage']));
@@ -2871,6 +2876,9 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 			offset = view_obj.__getitem__(String('offset'));
 			num_rows = pyjslib['len'](view_rows);
 			self.first_key = view_rows.__getitem__(0).__getitem__(String('key'));
+			if (pyjslib['bool'](!pyjslib['eq'](offset, 0))) {
+				self['first_button']['setEnabled'](true);
+			}
 			if (pyjslib['bool']((pyjslib['cmp'](num_rows, (typeof self['page_size'] == 'function' && self.__is_instance__?
 						pyjslib['getattr'](self, 'page_size'):
 						self['page_size'])) == 1))) {
@@ -2921,21 +2929,37 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 				col = arguments[3];
 			}
 			var url,doc_rev,doc_id;
-			doc_id = self['grid']['getHTML'](row, 0);
-			if (pyjslib['bool'](pyjslib['eq'](col, 2))) {
-				doc_rev = self['grid']['getHTML'](row, 1);
+			doc_id = self['grid']['getHTML'](row, 1);
+			if (pyjslib['bool'](pyjslib['eq'](col, 3))) {
+				doc_rev = self['grid']['getHTML'](row, 2);
 				url =  (  (  ( (typeof self['db_url'] == 'function' && self.__is_instance__?
 							pyjslib['getattr'](self, 'db_url'):
 							self['db_url']) + doc_id )  + String('?rev=') )  + doc_rev ) ;
 				$pyjs_kwargs_call(viewer['HTTPRequest'](), 'asyncDelete', null, null, [{url:url, handler:viewer['DeleteHandler'](self)}, null, null]);
 			}
 			else {
-				self['doc_callback'](doc_id);
+				if (pyjslib['bool'](((typeof self['doc_callback'] == 'function' && self.__is_instance__?
+							pyjslib['getattr'](self, 'doc_callback'):
+							self['doc_callback']) !== null))) {
+					self['doc_callback'](doc_id);
+				}
 			}
 			return null;
 		}
 	, 1, [null,null,['self'],['sender'],['row'],['col']]);
 		$cls_definition['onCellClicked'] = $method;
+		$method = $pyjs__bind_method($cls_instance, 'firstPage', function() {
+			if (this.__is_instance__ === true) {
+				var self = this;
+			} else {
+				var self = arguments[0];
+			}
+
+			self['loadPage'](null);
+			return null;
+		}
+	, 1, [null,null,['self']]);
+		$cls_definition['firstPage'] = $method;
 		$method = $pyjs__bind_method($cls_instance, 'nextPage', function() {
 			if (this.__is_instance__ === true) {
 				var self = this;
@@ -2976,8 +3000,6 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 			if (typeof first_key == 'undefined') first_key=arguments.callee.__args__[4][1];
 
 			self.view_path = view_path;
-			self.prev_keys = new pyjslib['List']([]);
-			self.next_key = null;
 			self['loadPage'](first_key);
 			return null;
 		}
@@ -3003,6 +3025,10 @@ $pyjs.loaded_modules['viewer'] = function (__mod_name__) {
 			if (pyjslib['bool']((startkey !== null))) {
 				view_url += pyjslib['sprintf'](String('\x26startkey=\x22%s\x22'), startkey);
 			}
+			else {
+				self.prev_keys = new pyjslib['List']([]);
+			}
+			self['first_button']['setEnabled'](false);
 			self['next_button']['setEnabled'](false);
 			self['prev_button']['setEnabled'](false);
 			$pyjs_kwargs_call(viewer['HTTPRequest'](), 'asyncGet', null, null, [{url:view_url, handler:viewer['ViewLoader'](self)}, null, null]);
@@ -16487,7 +16513,7 @@ $pyjs.loaded_modules['editor'] = function (__mod_name__) {
 		var $cls_instance = $pyjs__class_instance('DocLoader');
 		var $cls_definition = new Object();
 		var $method;
-		$cls_definition.__md5__ = '18062ba960ded7efcbed9571cc8086f8';
+		$cls_definition.__md5__ = '83ed8773316572ceb2f99c217c7d0f51';
 		$method = $pyjs__bind_method($cls_instance, '__init__', function(editor) {
 			if (this.__is_instance__ === true) {
 				var self = this;
@@ -16522,7 +16548,7 @@ $pyjs.loaded_modules['editor'] = function (__mod_name__) {
 				text = arguments[1];
 			}
 
-			editor['Window']['alert'](text);
+			editor['Window']['alert'](pyjslib['sprintf'](String('Error loading document: %s'), text));
 			return null;
 		}
 	, 1, [null,null,['self'],['text']]);

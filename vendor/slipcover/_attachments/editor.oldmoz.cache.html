@@ -14023,7 +14023,7 @@ $pyjs.loaded_modules['editor'] = function (__mod_name__) {
 		var $cls_instance = $pyjs__class_instance('DocLoader');
 		var $cls_definition = new Object();
 		var $method;
-		$cls_definition.__md5__ = '18062ba960ded7efcbed9571cc8086f8';
+		$cls_definition.__md5__ = '83ed8773316572ceb2f99c217c7d0f51';
 		$method = $pyjs__bind_method($cls_instance, '__init__', function(editor) {
 			if (this.__is_instance__ === true) {
 				var self = this;
@@ -14058,7 +14058,7 @@ $pyjs.loaded_modules['editor'] = function (__mod_name__) {
 				text = arguments[1];
 			}
 
-			editor['Window']['alert'](text);
+			editor['Window']['alert'](pyjslib['sprintf'](String('Error loading document: %s'), text));
 			return null;
 		}
 	, 1, [null,null,['self'],['text']]);

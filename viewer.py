@@ -9,15 +9,13 @@ from pyjamas import Window
 
 class ViewLoader:
     def __init__(self, viewer):
-        print 'loader init'
         self.viewer = viewer
 
     def onCompletion(self, body):
-        print 'complete'
         self.viewer.populate(body)
 
     def onError(self, text):
-        Window.alert(text)
+        Window.alert('Error loading view: %s'%text)
 
 class DeleteHandler:
     def __init__(self, viewer):
@@ -40,6 +38,8 @@ class Viewer:
         self.page_size = page_size
 
     def onModuleLoad(self):
+
+        ## Grid setup
         self.grid = Grid()
         # Note: The resize method args are Rows,Cols (Curses style)
         self.grid.resize(1,4)
@@ -54,6 +54,9 @@ class Viewer:
         ## Buttons
         self.button_panel = HorizontalPanel()
         # Prev
+        self.first_button = Button("<-", self.firstPage)
+        self.first_button.setEnabled(False)
+        self.button_panel.add(self.first_button)
         self.prev_button = Button("Previous", self.prevPage)
         self.prev_button.setEnabled(False)
         self.button_panel.add(self.prev_button)
@@ -69,6 +72,9 @@ class Viewer:
         num_rows = len(view_rows)
         
         self.first_key = view_rows[0]['key']
+
+        if offset != 0:
+            self.first_button.setEnabled(True)
 
         if num_rows > self.page_size:
             self.next_key = view_rows[-1:][0]['key']
@@ -89,14 +95,18 @@ class Viewer:
             self.prev_button.setEnabled(True)
 
     def onCellClicked(self, sender, row, col):
-        doc_id = self.grid.getHTML(row, 0)
-        if col == 2:
-            doc_rev = self.grid.getHTML(row, 1)
+        doc_id = self.grid.getHTML(row, 1)
+        if col == 3:
+            doc_rev = self.grid.getHTML(row, 2)
             url = self.db_url+doc_id+'?rev='+doc_rev
             HTTPRequest().asyncDelete(None, None, url=url,
                                         handler=DeleteHandler(self))
         else:
-            self.doc_callback(doc_id)
+            if self.doc_callback is not None:
+                self.doc_callback(doc_id)
+
+    def firstPage(self):
+        self.loadPage(None)
 
     def nextPage(self):
         self.prev_keys.append(self.first_key)
@@ -107,8 +117,8 @@ class Viewer:
 
     def setView(self, view_path, first_key = None):
         self.view_path = view_path
-        self.prev_keys = []
-        self.next_key = None
+        #self.prev_keys = []
+        #self.next_key = None
         self.loadPage(first_key)
 
     def loadPage(self, startkey=None):
@@ -116,7 +126,10 @@ class Viewer:
         view_url = self.db_url+self.view_path+'?limit=%d'%limit
         if startkey is not None:
             view_url += '&startkey="%s"'%startkey
+        else:
+            self.prev_keys = []
 
+        self.first_button.setEnabled(False)
         self.next_button.setEnabled(False)
         self.prev_button.setEnabled(False)
         HTTPRequest().asyncGet(None, None, url=view_url,
