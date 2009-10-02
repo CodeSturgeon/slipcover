@@ -61,9 +61,6 @@ class Editor:
         self.doc_area.setEnabled(True)
         self.doc_area.setFocus(True)
 
-    def testy(self):
-        Window.open(url='http://localhost:5984/relaxer',name='noogit')
-
     def saveDocument(self):
         self.doc_area.setEnabled(False)
         self.save_button.setEnabled(False)
