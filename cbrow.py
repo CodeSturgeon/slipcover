@@ -6,11 +6,6 @@ from pyjamas import Window
 from editor import Editor
 from viewer import Viewer
 
-from pyjamas.ui.Button import Button
-from pyjamas.ui.Grid import Grid
-from pyjamas.HTTPRequest import HTTPRequest
-from pyjamas.JSONParser import JSONParser
-
 if __name__ == '__main__':
     pyjd.setup("public/cbrow.html")
 
